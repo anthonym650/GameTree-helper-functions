@@ -1,5 +1,3 @@
-print("hello")
-import pymongo
 import datetime
 import random
 from pymongo import MongoClient
@@ -24,11 +22,11 @@ import pandas as pd
 import plotly.io as pio
 from IPython.display import Image
 import os
-textfiles_path_laptop = "C:/Users/Anthony/OneDrive/Desktop/Assignment to find user who matched in two or more sessions/Second run with abs(diff)/"
-textfiles_path ="C:/Users/antho/OneDrive/Desktop/Assignment to find user who matched in two or more sessions/Second run with abs(diff)/"
+textfiles_path_laptop = "C:/Users/..."
+textfiles_path ="C:/Users/..."
 
 # Database info
-URI = "mongodb+srv://gametreeuser:7eYe7WpganG3zfWy@gametreedb-v44.ul4vx.mongodb.net/gametreedb?authSource=admin"
+URI = "INSERT URI HERE"
 
 client = MongoClient(URI)
 
@@ -178,13 +176,13 @@ def getValuesGrid(userList):
 		index +=1
 	return values
 
-def getGameGenres(userIds):
+def getGameGenres(userList):
 	# input a list of userId's and returns a list with the frequency of
 	# users game genres in this order:
 	# [action,adventure,casual,fighting,music,rpg,sports,strategy]
 	action,adventure,casual,fighting,music,rpg,sports,strategy = 0,0,0,0,0,0,0,0
 	count = 0
-	for user in userIds:
+	for user in userLIst:
 		genres = db.users.find_one({'_id':ObjectId(user)}).get('genres')
 
 		if(genres):
@@ -208,7 +206,7 @@ def getGameGenres(userIds):
 
 
 
-def getPlatforms(userIds):
+def getPlatforms(userList):
 	# input a list of userId's and returns a list with the frequency of
 	# users game platforms in this order:
 	# [computer,mobile,switch,xbox,playstation,wii,tabletop]
@@ -232,7 +230,7 @@ def getPlatforms(userIds):
 
 	return [computer,mobile,switch,xbox,playstation,wii,tabletop]
 
-def getLocation(userIds):
+def getLocation(userList):
 	# input a list of userId's and returns a dictionary where keys are
 	# distinct countries and values are the frequency in which they
 	# occur. 
@@ -606,80 +604,3 @@ def myGames():
 		print(x.get('weburl'),":",game)
 
 
-	############################################################
-	# REJECTED CODE THAT WAS UPDATED BUT MIGHT STILL BE USEFUL #
-	############################################################
-
-	# def after(first_dataset,second_dataset,test_type,k):
-
-	# with open(first_dataset[1]+"_Values_data.txt",'r',encoding = 'utf8') as values, open(first_dataset[1]+"_Dna_data.txt",'r',encoding = 'utf8') as dna, open(first_dataset[1]+"_Mbti_data.txt",'r',encoding = 'utf8') as mbti:
-	# 	if(test_type == 'values'):
-	# 		S1_data = values.read().split('\n')
-	# 	if(test_type == 'dna'):
-	# 		S1_data = dna.read().split('\n')
-	# 	if(test_type == 'mbti'):
-	# 		S1_data = mbti.read().split('\n')
-	# with open(second_dataset[1]+"_Values_data.txt",'r',encoding = 'utf8') as values, open(second_dataset[1]+"_Dna_data.txt",'r',encoding = 'utf8') as dna, open(second_dataset[1]+"_Mbti_data.txt",'r',encoding = 'utf8') as mbti:
-	# 	if(test_type == 'values'):
-	# 		S2_data = values.read().split('\n')
-	# 	if(test_type == 'dna'):
-	# 		S2_data = dna.read().split('\n')
-	# 	if(test_type == 'mbti'):
-	# 		S2_data = mbti.read().split('\n')
-	# #__________________________________________________________________________
-
-	# for index,row in enumerate(S1_data):
-	# 	if(row):
-	# 		S1_data[index] = row[row.index('[') + 1: row.index(']')].split(', ')
-	# 	else:
-	# 		S1_data.pop(index)
-
-	# for i,row in enumerate(S1_data):
-
-	# 	for j,element in enumerate(row):
-
-	# 		if(element == 'None'):
-	# 			S1_data[i][j] = int(50)
-
-	# 		else:
-	# 			S1_data[i][j] = int(S1_data[i][j])
-	# #___________________________________________________________________________
-
-	# for index,row in enumerate(S2_data):
-	# 	if(row):
-	# 		S2_data[index] = row[row.index('[') + 1: row.index(']')].split(', ')
-	# 	else:
-	# 		S2_data.pop(index)
-
-	# for i,row in enumerate(S2_data):
-
-	# 	for j,element in enumerate(row):
-
-	# 		if(element == 'None'):
-	# 			S2_data[i][j] = int(50)
-
-	# 		else:
-	# 			S2_data[i][j] = int(S2_data[i][j])
-	# #___________________________________________________________________________
-	# with open(textfiles_path+"table_values_labels.txt",'r',encoding = 'utf8') as values, open(textfiles_path+"table_gamerDNA_labels.txt",'r',encoding = 'utf8') as dna, open(textfiles_path+"table_mbti_labels.txt",'r',encoding = 'utf8') as mbti:
-	# 	if(test_type == 'values'):
-	# 		labels = values.read().split('\n')
-	# 	if(test_type == 'dna'):
-	# 		labels = dna.read().split('\n')
-	# 	if(test_type == 'mbti'):
-	# 		labels = mbti.read().split('\n')
-
-	# x_axis,S1_axis = getPercentages(S1_data,k)
-	# x_axis,S2_axis = getPercentages(S2_data,k)
-
-	# fig = go.Figure()
-
-	# fig.add_trace(go.Scatter(
-	#     x=x_axis, y=S1_axis, name = first_dataset[1]
-	# ))
-	# fig.add_trace(go.Scatter(
-	#     x=x_axis, y=S2_axis, name = second_dataset[1]
-	# ))
-	# fig.update_layout(title = labels[k])
-	# fig.show()
-	# # fig.write_image(width = 1920, height = 1080, file = "images/"+test_type+"/"+test_type+"_"+str(k)+".png")
